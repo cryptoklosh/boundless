@@ -600,10 +600,22 @@ Read more about them in [official doc](https://docs.beboundless.xyz/provers/brok
  
 ---
 
-# Whitelisted requestor addresses
+## Whitelisted requestor addresses
 There are certain eligible requoestors whos proving their orders is incentiviezed. Always check it out [here](https://signal.beboundless.xyz/prove/leaderboard) by moving your cursor on **How is this calculated?**
 
 <img width="404" height="184" alt="image" src="https://github.com/user-attachments/assets/a303373b-b026-41ea-9969-d3720c574047" />
+
+Set them with your desired situation in `broker.toml` file using these variables:
+```console
+# If enabled, the order will be preflighted by bypassing mcycle limit
+priority_requestor_addresses =
+
+# If enabled, all requests from clients not in the allow list are skipped.
+allow_client_addresses =
+
+# If enabled, all requests from clients in the deny list are skipped.
+deny_requestor_addresses =
+```
 
 ---
 
