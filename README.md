@@ -224,7 +224,7 @@ source ~/.bashrc
 bento_cli --version
 
 # Install Boundless CLI:
-cargo install --locked boundless-cli --version 0.12.1
+cargo install --locked boundless-cli
 export PATH=$PATH:/root/.cargo/bin
 source ~/.bashrc
 
