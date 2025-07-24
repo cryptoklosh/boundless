@@ -473,7 +473,7 @@ install_rust_deps() {
 
     # Install bento-client with the RISC Zero toolchain
     info "Installing bento-client..."
-    RUSTUP_TOOLCHAIN=$TOOLCHAIN cargo install --locked --git https://github.com/risc0/risc0 bento-client --branch release-2.1 --bin bento_cli
+    RUSTUP_TOOLCHAIN=$TOOLCHAIN cargo install --locked --git https://github.com/risc0/risc0 bento-client --branch release-2.3 --bin bento_cli
  >> "$LOG_FILE" 2>&1 || {
         error "Failed to install bento-client"
         exit $EXIT_DEPENDENCY_FAILED
@@ -487,7 +487,7 @@ install_rust_deps() {
 
     # Install boundless-cli
     info "Installing boundless-cli..."
-    cargo install --locked boundless-cli --version 0.12.1 >> "$LOG_FILE" 2>&1 || {
+    cargo install --locked boundless-cli >> "$LOG_FILE" 2>&1 || {
         error "Failed to install boundless-cli"
         exit $EXIT_DEPENDENCY_FAILED
     }
@@ -515,7 +515,7 @@ clone_repository() {
                 rm -rf "$INSTALL_DIR"
             else
                 cd "$INSTALL_DIR"
-                if ! git pull origin release-0.10 2>&1 >> "$LOG_FILE"; then
+                if ! git pull origin release-0.13 2>&1 >> "$LOG_FILE"; then
                     error "Failed to update repository"
                     exit $EXIT_DEPENDENCY_FAILED
                 fi
@@ -529,8 +529,8 @@ clone_repository() {
             exit $EXIT_DEPENDENCY_FAILED
         fi
         cd "$INSTALL_DIR"
-        if ! git checkout release-0.10 2>&1; then
-            error "Failed to checkout release-0.10"
+        if ! git checkout release-0.13 2>&1; then
+            error "Failed to checkout release-0.13"
             exit $EXIT_DEPENDENCY_FAILED
         fi
         if ! git submodule update --init --recursive 2>&1; then
