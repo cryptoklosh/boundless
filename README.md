@@ -161,7 +161,7 @@ sudo apt install curl iptables build-essential git wget lz4 jq make gcc nano aut
 ```bash
 git clone https://github.com/boundless-xyz/boundless
 cd boundless
-git checkout release-0.12
+git checkout release-0.13
 ```
 
 ### Install Dependecies
@@ -216,7 +216,7 @@ rzup install cargo-risczero
 rustup update
 
 # Install Bento-client:
-cargo install --locked --git https://github.com/risc0/risc0 bento-client --branch release-2.1 --bin bento_cli
+cargo install --locked --git https://github.com/risc0/risc0 bento-client --branch release-2.3 --bin bento_cli
 echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 
