@@ -223,7 +223,7 @@ source ~/.bashrc
 # Verify Bento-client:
 bento_cli --version
 
-# Install Boundless CLI:
+# Install Boundless CLI (v13):
 cargo install --locked boundless-cli
 export PATH=$PATH:/root/.cargo/bin
 source ~/.bashrc
