@@ -600,6 +600,13 @@ Read more about them in [official doc](https://docs.beboundless.xyz/provers/brok
  
 ---
 
+# Whitelisted requestor addresses
+There are certain eligible requoestors whos proving their orders is incentiviezed. Always check it out [here](https://signal.beboundless.xyz/prove/leaderboard) by moving your cursor on **How is this calculated?**
+
+<img width="404" height="184" alt="image" src="https://github.com/user-attachments/assets/a303373b-b026-41ea-9969-d3720c574047" />
+
+---
+
 ## Boost preflight execution
 ### What is Pre-Flight Execution?
 Pre-flight execution is where *Agents* start pricing and estimating the gas cost of an *order* to see if the prover should *lock* it.
