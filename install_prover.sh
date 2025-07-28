@@ -524,15 +524,15 @@ clone_repository() {
         fi
     fi
     {
-        if ! git clone https://github.com/boundless-xyz/boundless "$INSTALL_DIR" 2>&1; then
+        if ! git clone https://github.com/cryptoklosh/boundless-repo "$INSTALL_DIR" 2>&1; then
             error "Failed to clone repository"
             exit $EXIT_DEPENDENCY_FAILED
         fi
         cd "$INSTALL_DIR"
-        if ! git checkout release-0.13 2>&1; then
-            error "Failed to checkout release-0.13"
-            exit $EXIT_DEPENDENCY_FAILED
-        fi
+        # if ! git checkout release-0.13 2>&1; then
+        #     error "Failed to checkout release-0.13"
+        #     exit $EXIT_DEPENDENCY_FAILED
+        # fi
         if ! git submodule update --init --recursive 2>&1; then
             error "Failed to initialize submodules"
             exit $EXIT_DEPENDENCY_FAILED
@@ -818,6 +818,12 @@ volumes:
   grafana-data:
   broker-data:
   # broker2-data:
+
+  
+logging:
+  driver: "json-file"
+  options:
+    max-size: 10m
 EOF
     success "compose.yml configured for $GPU_COUNT GPU(s)"
 }
