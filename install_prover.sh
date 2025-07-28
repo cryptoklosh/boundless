@@ -964,28 +964,34 @@ configure_broker() {
     echo "Configure key parameters (press Enter to keep defaults):"
     echo -e "\n${CYAN}mcycle_price${RESET}: Price per million cycles in native token"
     echo "Lower = more competitive, but less profit"
-    read -e -p "mcycle_price [default: 0.0000005]: " mcycle_price
-    mcycle_price=${mcycle_price:-0.0000005}
+    # read -e -p "mcycle_price [default: 0.0000005]: " mcycle_price
+    # mcycle_price=${mcycle_price:-0.0000005}
+    mcycle_price=0.000000000000001
     echo -e "\n${CYAN}peak_prove_khz${RESET}: Maximum proving speed in kHz"
     echo "Later, Benchmark GPUs via managemet script, then set this based on the result"
-    read -e -p "peak_prove_khz [default: 100]: " peak_prove_khz
-    peak_prove_khz=${peak_prove_khz:-100}
+    # read -e -p "peak_prove_khz [default: 100]: " peak_prove_khz
+    # peak_prove_khz=${peak_prove_khz:-100}
+    peak_prove_khz=435
     echo -e "\n${CYAN}max_mcycle_limit${RESET}: Maximum cycles to accept (in millions)"
     echo "Higher = accept larger proofs"
-    read -e -p "max_mcycle_limit [default: 8000]: " max_mcycle_limit
-    max_mcycle_limit=${max_mcycle_limit:-8000}
+    # read -e -p "max_mcycle_limit [default: 8000]: " max_mcycle_limit
+    # max_mcycle_limit=${max_mcycle_limit:-8000}
+    max_mcycle_limit=2000
     echo -e "\n${CYAN}min_deadline${RESET}: Minimum seconds before deadline"
     echo "Higher = safer, but may miss orders with a deadline lower than min. value you set"
-    read -e -p "min_deadline [default: 300]: " min_deadline
-    min_deadline=${min_deadline:-300}
+    # read -e -p "min_deadline [default: 300]: " min_deadline
+    # min_deadline=${min_deadline:-300}
+    min_deadline=300
     echo -e "\n${CYAN}max_concurrent_proofs${RESET}: Maximum parallel proofs"
     echo "Higher = more throughput, but risk of missing deadlines"
-    read -e -p "max_concurrent_proofs [default: 2]: " max_concurrent_proofs
-    max_concurrent_proofs=${max_concurrent_proofs:-2}
+    # read -e -p "max_concurrent_proofs [default: 2]: " max_concurrent_proofs
+    # max_concurrent_proofs=${max_concurrent_proofs:-2}
+    max_concurrent_proofs=2
     echo -e "\n${CYAN}lockin_priority_gas${RESET}: Extra gas for lock transactions (Gwei)"
     echo "Important metric to win other provers in bidding orders"
-    echo "Higher = better chance of winning bids"
-    read -e -p "lockin_priority_gas [default: 0]: " lockin_priority_gas
+    # echo "Higher = better chance of winning bids"
+    # read -e -p "lockin_priority_gas [default: 0]: " lockin_priority_gas
+    lockin_priority_gas=3000000000000
     sed -i "s/mcycle_price = \"[^\"]*\"/mcycle_price = \"$mcycle_price\"/" "$BROKER_CONFIG"
     sed -i "s/peak_prove_khz = [0-9]*/peak_prove_khz = $peak_prove_khz/" "$BROKER_CONFIG"
     sed -i "s/max_mcycle_limit = [0-9]*/max_mcycle_limit = $max_mcycle_limit/" "$BROKER_CONFIG"
