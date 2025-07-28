@@ -666,6 +666,10 @@ services:
       - 6379:6379
     volumes:
       - redis-data:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   postgres:
     hostname: ${POSTGRES_HOST:-postgres}
@@ -682,6 +686,10 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     command: -p ${POSTGRES_PORT:-5432}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   minio:
     hostname: ${MINIO_HOST:-minio}
@@ -702,6 +710,10 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   grafana:
     image: ${GRAFANA_IMG:-grafana/grafana:11.0.0}
@@ -726,12 +738,24 @@ services:
       - postgres
       - redis
       - minio
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   exec_agent0:
     <<: *exec-agent-common
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   exec_agent1:
     <<: *exec-agent-common
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   aux_agent:
     <<: *agent-common
@@ -761,6 +785,10 @@ EOF
     entrypoint: /app/agent -t snark
     ulimits:
       stack: 90000000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   rest_api:
     image: risczero/risc0-bento-rest-api:stable@sha256:7b5183811675d0aa3646d079dec4a7a6d47c84fab4fa33d3eb279135f2e59207
@@ -775,6 +803,10 @@ EOF
     ports:
       - '8081:8081'
     entrypoint: /app/rest_api --bind-addr 0.0.0.0:8081 --snark-timeout ${SNARK_TIMEOUT:-180}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   broker:
     <<: *broker-common
@@ -795,6 +827,10 @@ EOF
       PRIVATE_KEY: ${PRIVATE_KEY}
       RPC_URL: ${RPC_URL}
     entrypoint: /app/broker --db-url 'sqlite:///db/broker.db' --config-file /app/broker.toml --bento-api-url http://localhost:8081
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
 
   # # Example second broker with different configuration
   # broker2:
@@ -818,12 +854,6 @@ volumes:
   grafana-data:
   broker-data:
   # broker2-data:
-
-  
-logging:
-  driver: "json-file"
-  options:
-    max-size: 10m
 EOF
     success "compose.yml configured for $GPU_COUNT GPU(s)"
 }
