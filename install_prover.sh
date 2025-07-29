@@ -966,7 +966,8 @@ configure_broker() {
     echo "Lower = more competitive, but less profit"
     # read -e -p "mcycle_price [default: 0.0000005]: " mcycle_price
     # mcycle_price=${mcycle_price:-0.0000005}
-    mcycle_price=0.000000000000001
+    mcycle_price=0.0000000000001
+    mcycle_price_stake_token=0.00001
     echo -e "\n${CYAN}peak_prove_khz${RESET}: Maximum proving speed in kHz"
     echo "Later, Benchmark GPUs via managemet script, then set this based on the result"
     # read -e -p "peak_prove_khz [default: 100]: " peak_prove_khz
@@ -976,27 +977,51 @@ configure_broker() {
     echo "Higher = accept larger proofs"
     # read -e -p "max_mcycle_limit [default: 8000]: " max_mcycle_limit
     # max_mcycle_limit=${max_mcycle_limit:-8000}
-    max_mcycle_limit=2000
+    max_mcycle_limit=8000
     echo -e "\n${CYAN}min_deadline${RESET}: Minimum seconds before deadline"
     echo "Higher = safer, but may miss orders with a deadline lower than min. value you set"
     # read -e -p "min_deadline [default: 300]: " min_deadline
     # min_deadline=${min_deadline:-300}
-    min_deadline=300
+    min_deadline=180
     echo -e "\n${CYAN}max_concurrent_proofs${RESET}: Maximum parallel proofs"
     echo "Higher = more throughput, but risk of missing deadlines"
     # read -e -p "max_concurrent_proofs [default: 2]: " max_concurrent_proofs
     # max_concurrent_proofs=${max_concurrent_proofs:-2}
-    max_concurrent_proofs=2
+    max_concurrent_proofs=8
     echo -e "\n${CYAN}lockin_priority_gas${RESET}: Extra gas for lock transactions (Gwei)"
     echo "Important metric to win other provers in bidding orders"
     # echo "Higher = better chance of winning bids"
     # read -e -p "lockin_priority_gas [default: 0]: " lockin_priority_gas
-    lockin_priority_gas=3000000000000
+    lockin_priority_gas=5000000
+    max_stake=5
+    max_concurrent_preflights=16
+    balance_warn_threshold=0.001
+    stake_balance_warn_threshold=5
+    balance_error_threshold=0.005
+    stake_balance_error_threshold=1
+    status_poll_ms=200
+    req_retry_count=0
+    req_retry_sleep_ms=50
+    txn_timeout=15
+    
     sed -i "s/mcycle_price = \"[^\"]*\"/mcycle_price = \"$mcycle_price\"/" "$BROKER_CONFIG"
+    sed -i "s/mcycle_price_stake_token = \"[^\"]*\"/mcycle_price_stake_token = \"$mcycle_price_stake_token\"/" "$BROKER_CONFIG"
+    
     sed -i "s/peak_prove_khz = [0-9]*/peak_prove_khz = $peak_prove_khz/" "$BROKER_CONFIG"
     sed -i "s/max_mcycle_limit = [0-9]*/max_mcycle_limit = $max_mcycle_limit/" "$BROKER_CONFIG"
     sed -i "s/min_deadline = [0-9]*/min_deadline = $min_deadline/" "$BROKER_CONFIG"
     sed -i "s/max_concurrent_proofs = [0-9]*/max_concurrent_proofs = $max_concurrent_proofs/" "$BROKER_CONFIG"
+    sed -i "s/max_stake = \"[^\"]*\"/max_stake = \"$max_stake\"/" "$BROKER_CONFIG"
+    sed -i "s/#max_concurrent_preflights = \"[^\"]*\"/max_concurrent_preflights = \"$max_concurrent_preflights\"/" "$BROKER_CONFIG"
+    sed -i "s/balance_warn_threshold = \"[^\"]*\"/balance_warn_threshold = \"$balance_warn_threshold\"/" "$BROKER_CONFIG"
+    sed -i "s/stake_balance_warn_threshold = \"[^\"]*\"/stake_balance_warn_threshold = \"$stake_balance_warn_threshold\"/" "$BROKER_CONFIG"
+    sed -i "s/balance_error_threshold = \"[^\"]*\"/balance_error_threshold = \"$balance_error_threshold\"/" "$BROKER_CONFIG"
+    sed -i "s/stake_balance_error_threshold = \"[^\"]*\"/stake_balance_error_threshold = \"$stake_balance_error_threshold\"/" "$BROKER_CONFIG"
+    sed -i "s/status_poll_ms = \"[^\"]*\"/status_poll_ms = \"$status_poll_ms\"/" "$BROKER_CONFIG"
+    sed -i "s/req_retry_count = \"[^\"]*\"/req_retry_count = \"$req_retry_count\"/" "$BROKER_CONFIG"
+    sed -i "s/req_retry_sleep_ms = \"[^\"]*\"/req_retry_sleep_ms = \"$req_retry_sleep_ms\"/" "$BROKER_CONFIG"
+    sed -i "s/txn_timeout = \"[^\"]*\"/txn_timeout = $txn_timeout/" "$BROKER_CONFIG"
+    
     if [[ -n "$lockin_priority_gas" ]]; then
         sed -i "s/#lockin_priority_gas = [0-9]*/lockin_priority_gas = $lockin_priority_gas/" "$BROKER_CONFIG"
     fi
