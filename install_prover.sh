@@ -206,13 +206,13 @@ update_system() {
             fi
             exit $EXIT_DEPENDENCY_FAILED
         fi
-        if ! apt upgrade -y 2>&1; then
-            error "apt upgrade failed"
-            if apt upgrade 2>&1 | grep -q "dpkg was interrupted"; then
-                exit $EXIT_DPKG_ERROR
-            fi
-            exit $EXIT_DEPENDENCY_FAILED
-        fi
+        # if ! apt upgrade -y 2>&1; then
+        #     error "apt upgrade failed"
+        #     if apt upgrade 2>&1 | grep -q "dpkg was interrupted"; then
+        #         exit $EXIT_DPKG_ERROR
+        #     fi
+        #     exit $EXIT_DEPENDENCY_FAILED
+        # fi
     } >> "$LOG_FILE" 2>&1
     success "System packages updated"
 }
@@ -1794,16 +1794,28 @@ main() {
         warning "This script requires root privileges or a user with appropriate permissions"
         info "Please ensure you have the necessary permissions to install packages and modify system settings"
     fi
+
+    nvidia_exists=""
+    if comand_exists nvidia-smi; then
+        nvidia_exists="t"
+    fi    
+    
     check_os
     update_system
     info "Installing all dependencies..."
     install_basic_deps
-    install_gpu_drivers
+    if [ -z "${nvidia_exists}" ]; then
+        install_gpu_drivers
+    fi
     install_docker
-    install_nvidia_toolkit
+    if [ -z "${nvidia_exists}" ]; then
+        install_nvidia_toolkit
+    fi
     install_rust
     install_just
-    install_cuda
+    if [ -z "${nvidia_exists}" ]; then
+        install_cuda
+    fi
     install_rust_deps
     clone_repository
     detect_gpus
