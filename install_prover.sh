@@ -1821,7 +1821,7 @@ main() {
     fi
 
     nvidia_exists=""
-    if comand_exists nvidia-smi; then
+    if command_exists nvidia-smi; then
         nvidia_exists="t"
     fi    
     
