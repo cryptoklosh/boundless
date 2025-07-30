@@ -1833,9 +1833,7 @@ main() {
         install_gpu_drivers
     fi
     install_docker
-    if [ -z "${nvidia_exists}" ]; then
-        install_nvidia_toolkit
-    fi
+    install_nvidia_toolkit
     install_rust
     install_just
     if [ -z "${nvidia_exists}" ]; then
